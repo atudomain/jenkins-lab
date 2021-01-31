@@ -15,3 +15,12 @@ jenkins:
 unclassified:
   location:
     url: http://127.0.0.1:8080/
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          id: "jenkins-git"
+          password: GIT_PASSWORD
+          scope: GLOBAL
+          username: "jenkins"
