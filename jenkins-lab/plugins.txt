@@ -2,3 +2,4 @@ configuration-as-code:latest
 git:latest
 matrix-auth:latest
 workflow-aggregator:latest
+docker-workflow:latest
