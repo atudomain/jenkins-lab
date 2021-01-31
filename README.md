@@ -57,3 +57,13 @@ Jenkins can see the git server under jenkins-git domain.
 Credentials with id jenkins-git allow connecting to http://jenkins-git:4444/jenkins
 
 You can potentially push shared libs to that repository as well.
+
+# Volumes
+
+By default, jenkins home is mounted under data directory.
+
+Remove the directory if you want clean install (backup it if precious).
+
+# Issues
+
+For yet unknown reason downloading plugins sometimes hangs. Run CTRL+C and issue docker compose up -d again.

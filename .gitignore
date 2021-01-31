@@ -2,3 +2,4 @@
 .env
 !.gitignore
 jenkins-lab.iml
+/data*
