@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  jenkins-lab:
+    build:
+      context: ./jenkins-lab
+      args:
+        JENKINS_PASSWORD: ${JENKINS_PASSWORD}
+        GIT_PASSWORD: ${GIT_PASSWORD}
+    image: jenkins-lab
+    container_name: jenkins-lab
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "127.0.0.1:8080:8080"
+    links:
+      - "jenkins-git:jenkins-git"
+  jenkins-git:
+    build:
+      context: ./jenkins-git
+      args:
+        GIT_PASSWORD: ${GIT_PASSWORD}
+    image: jenkins-git
+    container_name: jenkins-git
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4444:4444"
+
