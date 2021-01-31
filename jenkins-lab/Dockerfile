@@ -1,7 +1,10 @@
 FROM jenkins/jenkins:latest
 
 ARG JENKINS_PASSWORD
+RUN test -n "$JENKINS_PASSWORD"
+
 ARG GIT_PASSWORD
+RUN test -n "$GIT_PASSWORD"
 
 USER root
 

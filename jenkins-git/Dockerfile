@@ -1,6 +1,7 @@
 FROM alpine/git
 
 ARG GIT_PASSWORD
+RUN test -n "$GIT_PASSWORD"
 
 USER root
 
