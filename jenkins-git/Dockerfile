@@ -24,7 +24,7 @@ RUN echo -e "${GIT_PASSWORD}\n${GIT_PASSWORD}\n" | passwd git
 RUN mkdir -p /repo
 RUN chown git:git /repo
 USER git
-RUN cd /repo && git init --initial-branch=master
+RUN cd /repo && git init --bare --initial-branch=master
 
 USER root
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
