@@ -1,30 +1,26 @@
-FROM alpine/git
+FROM nginx
 
 ARG GIT_PASSWORD
 RUN test -n "$GIT_PASSWORD"
 
-USER root
+# COPY NGINX DEFAULT CONFIGURATION
+COPY default.conf /etc/nginx/conf.d/default.conf
 
-# INSTALL SSH
-RUN apk add openssh --no-cache
+# INSTALL GIT
+RUN apt-get update
+RUN apt-get install -y git
 
-# ENABLE PASSWORDLESS SSH ACCESS
-RUN echo "UseDNS no" >> /etc/ssh/sshd_config
-RUN echo "Port 4444" >> /etc/ssh/sshd_config
+# INSTALL APACHE2 UTILS
+RUN apt-get install -y apache2-utils
 
-# GENERATE KEYS
-RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
-RUN ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
-
-# CREATE USER
-RUN adduser git --disabled-password
-RUN echo -e "${GIT_PASSWORD}\n${GIT_PASSWORD}\n" | passwd git
+# INSTALL FCGI WRAP
+RUN apt-get install -y fcgiwrap
 
 # CREATE REPOSITORY
-RUN mkdir -p /repo
-RUN chown git:git /repo
-USER git
-RUN cd /repo && git init --bare --initial-branch=master
+RUN mkdir -p /git/jenkins
+RUN cd /git/jenkins && git init --bare && git update-server-info
 
-USER root
-ENTRYPOINT ["/usr/sbin/sshd", "-D"]
+# SET PASSWORD FOR REPOSITORIES
+RUN htpasswd -cb /git/htpasswd jenkins "$GIT_PASSWORD"
+
+CMD /etc/init.d/fcgiwrap start && chown nginx:nginx /var/run/fcgiwrap.socket && nginx -g 'daemon off;'
