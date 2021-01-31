@@ -22,8 +22,8 @@ COPY plugins.txt /plugins.txt
 RUN jenkins-plugin-cli --plugins -f /plugins.txt
 
 # COPY JOBS FROM TEMPLATE
-COPY jobs /var/jenkins_home/jobs
-RUN chown -R root:root /var/jenkins_home/jobs
+COPY jobs /jobs
+RUN chown -R root:root /jobs
 
 # INSTALL DOCKER-CE-CLI
 RUN apt-get update
@@ -37,3 +37,7 @@ RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debia
 RUN apt-get update
 RUN apt-get install -y docker-ce-cli
 
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chown root:root /docker-entrypoint.sh
+RUN chmod 700 /docker-entrypoint.sh
+ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]

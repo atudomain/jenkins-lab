@@ -24,7 +24,7 @@ Both usernames are jenkins.
 
 Run:
 ```
-docker-compose up -d
+docker-compose up -d --build
 ```
 
 After it finishes, everything is ready!
@@ -66,4 +66,4 @@ Remove the directory if you want clean install (backup it if precious).
 
 # Issues
 
-For yet unknown reason downloading plugins sometimes hangs. Run CTRL+C and issue docker compose up -d again.
+For yet unknown reason downloading plugins sometimes hangs. Run CTRL+C and issue docker compose up -d.
